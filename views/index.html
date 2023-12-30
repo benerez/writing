@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪩 Disco</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: url('calm.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        textarea {
+            width: 640px;
+            height: 500px;
+            padding: 40px;
+            border: none;
+            resize: none;
+            box-sizing: border-box;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #000;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: none;
+            outline: none;
+            max-width: 50ch;
+        }
+
+        #wordCount {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <textarea id="typingArea" placeholder="Start writing..."></textarea>
+    <span id="wordCount">0</span>
+</div>
+
+<script>
+    // JavaScript to handle word count
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.getElementById('typingArea');
+        const wordCountDisplay = document.getElementById('wordCount');
+
+        textarea.addEventListener('input', function() {
+            const text = textarea.value;
+            const words = text.trim().split(/\s+/); // Split by whitespace
+            const count = words.length;
+            wordCountDisplay.textContent = `${count}/500`; // Display word count divided by 500
+        });
+    });
+</script>
+
+</body>
+</html>
