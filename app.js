@@ -11,11 +11,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Serve Static Files (Optional at this stage, but good practice)
-app.use(express.static('views'));
+app.use(express.static(__dirname)); // Serve static files from the root directory
 
-// Root Route to serve index.html from views directory
+// Root Route to serve index.html from the root directory
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html')); // Serve index.html
+    res.sendFile(path.join(__dirname, 'index.html')); // Serve index.html from the root directory
 });
 
 // Start Server
