@@ -18,13 +18,13 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            position: relative;
         }
 
         .container {
             position: relative;
             width: 100%;
             max-width: 640px;
-            /* The container needs a set width as well so variable width works */
         }
 
         textarea {
@@ -32,7 +32,7 @@
             max-width: 640px;
             height: 500px;
             margin: 0 5%;
-            /* Width is set to 90%, with 5% margin on each side, with a max of 640 */
+            margin-bottom: 20px;
             padding: 40px;
             border: none;
             resize: none;
@@ -46,91 +46,95 @@
             outline: none;
         }
 
-        #wordCount {
-            display: none; /* Initially hide word count */
-            position: absolute;
-            /* Absolute positioning puts it in the bottom left corner, but mirrors the variable margin */
-            bottom: 0;
-            left: 5%;
-            /* Use padding instead to inset the text from the edge */
+        .white-container {
+            width: 90%;
+            max-width: 640px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            position: relative;
+            bottom: 20px;
+            display: none;
+            justify-content: flex-end;
+            align-items: center;
             padding: 10px;
+            margin: 0 auto;
+        }
+
+        #wordCount {
             font-size: 14px;
             opacity: 0;
-            transition: opacity 1s ease; /* 1-second fade-in transition */
+            transition: opacity 1s ease;
         }
 
         #copyButton {
-            display: none; /* Initially hide copy button */
-            position: absolute;
-            bottom: 10px;
-            right: 5%; /* Adjust this value for the desired distance from the right edge */
             background: none;
             border: none;
-            padding: 10px;
             cursor: pointer;
             opacity: 0;
-            transition: opacity 1s ease; /* 1-second fade-in transition */
+            transition: opacity 1s ease;
+            margin-left: auto;
         }
 
         #copyButton img {
-            width: 24px; /* Adjust the size of the icon as needed */
+            width: 24px;
             height: 24px;
         }
 
         footer {
             position: absolute;
-            bottom: 10px;
-            left: 10px; /* Adjust this value for the desired distance from the left edge */
-            font-size: 12px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
             color: hsl(0, 0%, 100%);
+            text-align: left;
+            font-size: 12px; /* Set the font size for the footer text */
         }
     </style>
 </head>
 <body>
-
 <div class="container">
     <textarea id="typingArea" placeholder="Start writing..."></textarea>
-    <span id="wordCount">0</span>
-    <button id="copyButton"><img src="copy.png" alt="Copy"></button>
+    <div class="white-container" id="wordCountContainer">
+        <span id="wordCount">0</span>
+        <button id="copyButton"><img src="copy.png" alt="Copy"></button>
+    </div>
 </div>
-
-<footer>Built with ❤️ in Brooklyn</footer>
-
+<footer>
+    Disco is built with ❤️ in Brooklyn
+</footer>
 <script>
-    // JavaScript to handle word count and copy to clipboard
     document.addEventListener('DOMContentLoaded', function() {
         const textarea = document.getElementById('typingArea');
+        const wordCountContainer = document.getElementById('wordCountContainer');
         const wordCountDisplay = document.getElementById('wordCount');
         const copyButton = document.getElementById('copyButton');
         let isCopied = false;
 
         textarea.addEventListener('input', function() {
             const text = textarea.value;
-            const words = text.trim().split(/\s+/); // Split by whitespace
+            const words = text.trim().split(/\s+/);
             const count = words.length;
 
-            // Show word count and copy button when there is text
             if (count > 0) {
-                wordCountDisplay.style.display = 'block';
+                wordCountContainer.style.display = 'flex';
                 copyButton.style.display = 'block';
-                // Trigger the fade-in effect
                 setTimeout(() => {
                     wordCountDisplay.style.opacity = '1';
                     copyButton.style.opacity = '1';
                 }, 100);
             } else {
-                // Hide word count and copy button when there is no text
-                wordCountDisplay.style.opacity = '0';
+                wordCountContainer.style.opacity = '0';
                 copyButton.style.opacity = '0';
                 setTimeout(() => {
-                    wordCountDisplay.style.display = 'none';
+                    wordCountContainer.style.display = 'none';
                     copyButton.style.display = 'none';
-                }, 1000); // Delay the hiding after the 1-second fade-out effect
+                }, 1000);
             }
 
-            wordCountDisplay.textContent = `${count}/500`; // Display word count divided by 500
+            wordCountDisplay.textContent = `${count}/500`;
 
-            // Reset the copy button state
             if (isCopied) {
                 copyButton.innerHTML = '<img src="copy.png" alt="Copy">';
                 isCopied = false;
@@ -152,6 +156,5 @@
         });
     });
 </script>
-
 </body>
 </html>
