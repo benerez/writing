@@ -47,6 +47,13 @@
             outline: none;
         }
 
+        /* Adjustments for mobile devices (e.g., iPhone 13 Mini) */
+        @media (max-width: 768px) {
+            textarea {
+                max-height: 50vh; /* Set a maximum height relative to the viewport height */
+            }
+        }
+
         .white-container {
             width: 90%;
             max-width: 640px;
