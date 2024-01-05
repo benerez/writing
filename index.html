@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disco</title>
-    <link rel="icon" href="disco-ball.png" type="image/png"> <!-- Favicon -->
+    <link rel="icon" href="disco-ball.png" type="image/png"> <!-- Add this line for the favicon -->
     <style>
         body {
             margin: 0;
@@ -54,7 +54,7 @@
             border-radius: 8px;
             position: relative;
             bottom: 20px;
-            display: none;
+            display: none; /* Initially hide the white container */
             justify-content: flex-end;
             align-items: center;
             padding: 10px;
@@ -92,6 +92,21 @@
             text-align: left;
             font-size: 12px; /* Set the font size for the footer text */
         }
+
+        /* Media query for screens with a maximum width of 768px (adjust as needed for mobile) */
+        @media (max-width: 768px) {
+            .white-container {
+                display: flex; /* Show the white container on mobile */
+            }
+
+            #wordCount {
+                display: block; /* Show the word count on mobile */
+            }
+
+            #copyButton {
+                display: block; /* Show the copy button on mobile */
+            }
+        }
     </style>
 </head>
 <body>
@@ -106,55 +121,53 @@
     Disco is built with ❤️ in Brooklyn
 </footer>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const textarea = document.getElementById('typingArea');
-        const wordCountContainer = document.getElementById('wordCountContainer');
-        const wordCountDisplay = document.getElementById('wordCount');
-        const copyButton = document.getElementById('copyButton');
-        let isCopied = false;
+    const textarea = document.getElementById('typingArea');
+    const wordCountContainer = document.getElementById('wordCountContainer');
+    const wordCountDisplay = document.getElementById('wordCount');
+    const copyButton = document.getElementById('copyButton');
+    let isCopied = false;
 
-        textarea.addEventListener('input', function() {
-            const text = textarea.value;
-            const words = text.trim().split(/\s+/);
-            const count = words.length;
+    textarea.addEventListener('input', function() {
+        const text = textarea.value;
+        const words = text.trim().split(/\s+/);
+        const count = words.length;
 
-            if (count > 0) {
-                wordCountContainer.style.display = 'flex';
-                copyButton.style.display = 'block';
-                setTimeout(() => {
-                    wordCountDisplay.style.opacity = '1';
-                    copyButton.style.opacity = '1';
-                }, 100);
-            } else {
-                wordCountContainer.style.opacity = '0';
-                copyButton.style.opacity = '0';
-                setTimeout(() => {
-                    wordCountContainer.style.display = 'none';
-                    copyButton.style.display = 'none';
-                }, 1000);
+        if (count > 0) {
+            wordCountContainer.style.display = 'flex';
+            copyButton.style.display = 'block';
+            setTimeout(() => {
+                wordCountDisplay.style.opacity = '1';
+                copyButton.style.opacity = '1';
+            }, 100);
+        } else {
+            wordCountContainer.style.opacity = '0';
+            copyButton.style.opacity = '0';
+            setTimeout(() => {
+                wordCountContainer.style.display = 'none';
+                copyButton.style.display = 'none';
+            }, 1000);
+        }
+
+        wordCountDisplay.textContent = `${count}/500`;
+
+        if (isCopied) {
+            copyButton.innerHTML = '<img src="copy.png" alt="Copy">';
+            isCopied = false;
+        }
+    });
+
+    copyButton.addEventListener('click', function() {
+        if (!isCopied) {
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                copyButton.innerHTML = '<img src="copy-success.png" alt="Copy Success">';
+                isCopied = true;
+            } catch (err) {
+                console.error('Unable to copy text: ', err);
             }
-
-            wordCountDisplay.textContent = `${count}/500`;
-
-            if (isCopied) {
-                copyButton.innerHTML = '<img src="copy.png" alt="Copy">';
-                isCopied = false;
-            }
-        });
-
-        copyButton.addEventListener('click', function() {
-            if (!isCopied) {
-                textarea.select();
-
-                try {
-                    document.execCommand('copy');
-                    copyButton.innerHTML = '<img src="copy-success.png" alt="Copy Success">';
-                    isCopied = true;
-                } catch (err) {
-                    console.error('Unable to copy text: ', err);
-                }
-            }
-        });
+        }
     });
 </script>
 </body>
